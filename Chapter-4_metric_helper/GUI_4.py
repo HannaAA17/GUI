@@ -515,17 +515,26 @@ class c4lesson(tkinter.Tk):
     # end def create_combobox
     
     # Define functions
+    def __wrap_exception(func):
+        """This decorator wraps function to handle exceptions."""
+        def _func_wrapper(self, *args, **kwargs):
+            try:
+                return func(self, *args, **kwargs)
+            except:
+                 messagebox.showerror("Invalid Input!", "Please Enter a Valid Number")
+        
+        return _func_wrapper
+
+    @__wrap_exception
     def calculate(self):
-        try:
-            cal = lambda x: 10**self.metric_list_v[self.metric_list_n.index(x)]
-            
-            from_v = float(self.input_field.get()) * cal(self.input_combobox.get())
-            to_v = from_v / cal(self.output_combobox.get())
-            
-            self.output_field.delete(0, tkinter.END)
-            self.output_field.insert(0, str(to_v))
-        except:
-            messagebox.showerror("Invalid Input!", "Please Enter a Valid Number")
+
+        cal = lambda x: 10**self.metric_list_v[self.metric_list_n.index(x)]
+        
+        from_v = float(self.input_field.get()) * cal(self.input_combobox.get())
+        to_v = from_v / cal(self.output_combobox.get())
+        
+        self.output_field.delete(0, tkinter.END)
+        self.output_field.insert(0, str(to_v))
     # end def calculate
       
     def run(self):
