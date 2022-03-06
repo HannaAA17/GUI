@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import ttk
 from PIL import ImageTk, Image
 
 # region chapter2
@@ -462,48 +463,63 @@ class c4lesson(tkinter.Tk):
         
         self.config(bg=self.bg_color)
         
-        # define control variables
-        self.metric_list_n = ['yotta', 'zetta', 'exa', 'peta', 'tera', 'giga', 'mega', 'kilo', 'hecto', 'deca', 'base', 'deci', 'centi', 'milli', 'micro', 'nano', 'pico', 'femto', 'atto', 'zepto', 'yocto'][-1::-1]
+        # define variables
+        self.metric_list_n = ['yotta', 'zetta', 'exa', 'peta', 'tera', 'giga', 'mega', 'kilo', 'hecto', 'deca', 'base value', 'deci', 'centi', 'milli', 'micro', 'nano', 'pico', 'femto', 'atto', 'zepto', 'yocto'][-1::-1]
         self.metric_list_v = [24, 21, 18, 15, 12, 9, 6, 3, 2, 1, 0, -1, -2, -3, -6, -9, -12, -15, -18, -21, -24][-1::-1]
-        
-        self.input_choice = tkinter.StringVar()
-        self.output_choice = tkinter.StringVar()
-        
-        self.input_choice.set('base')
-        self.output_choice.set('base')
     # end def __init__
     
     # Define layout
     def create_widgets(self):
+        # define widgets
         self.input_field = tkinter.Entry(self, width=20, font=self.field_font, borderwidth=3)
-        self.output_field = tkinter.Entry(self, width=20, font=self.field_font, borderwidth=3)
         equal_label = tkinter.Label(self, text='=', font=self.field_font, bg=self.bg_color)
-        
-        self.input_field.grid(row=0, column=0, padx=10, pady=10)
-        self.output_field.grid(row=0, column=2, padx=10, pady=10)
-        equal_label.grid(row=0, column=1, padx=10, pady=10)
-    
-        self.input_field.insert(0, 'Enter your quantity')
-        
-        convert_button = tkinter.Button(self, text='Convert', font=self.field_font, bg=self.button_color)
-        convert_button.grid(row=2, column=1, padx=10, pady=10, ipadx=50)
-        
+        self.output_field = tkinter.Entry(self, width=20, font=self.field_font, borderwidth=3)
         to_label = tkinter.Label(self, text='to', font=self.field_font, bg=self.bg_color)
-        to_label.grid(row=1, column=1)
+        convert_button = tkinter.Button(self, text='Convert', font=self.field_font, bg=self.button_color)
+        
+        # place widgets
+        self.input_field.grid(row=0, column=0, padx=10, pady=10)
+        equal_label.grid(row=0, column=1, padx=10, pady=10)
+        self.output_field.grid(row=0, column=2, padx=10, pady=10)
+        to_label.grid(row=1, column=1, padx=10, pady=10)
+        convert_button.grid(row=2, column=0, columnspan=3, padx=10, pady=10, ipadx=50)
+
+        # add place holder
+        self.input_field.insert(0, 'Enter your quantity:')
     # end def create_widgets
     
     def create_option_menu(self):
+        # define control variables
+        self.input_choice = tkinter.StringVar()
+        self.output_choice = tkinter.StringVar()
+        
         input_dropdown = tkinter.OptionMenu(self, self.input_choice, *self.metric_list_n)
         output_dropdown = tkinter.OptionMenu(self, self.output_choice, *self.metric_list_n)
         
         input_dropdown.grid(row=1, column=0)
         output_dropdown.grid(row=1, column=2)
+        
+        self.input_choice.set('base value')
+        self.output_choice.set('base value')
     # end def create_option_menu
     
+    def create_combobox(self):
+        self.input_combobox = ttk.Combobox(self, font=self.field_font, justify='center', value=self.metric_list_n)
+        self.output_combobox = ttk.Combobox(self, font=self.field_font, justify='center', value=self.metric_list_n)
+        
+        self.input_combobox.grid(row=1, column=0, padx=10, pady=10)
+        self.output_combobox.grid(row=1, column=2, padx=10, pady=10)
+        
+        self.input_combobox.set('base value')
+        self.output_combobox.set('base value')
+    # end def create_combobox
+    
     # Define functions
+    
     def run(self):
         self.create_widgets()
-        self.create_option_menu()
+        # self.create_option_menu()
+        self.create_combobox()
         self.mainloop()
 c4lesson().run()
 
