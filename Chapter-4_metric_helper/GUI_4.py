@@ -1,5 +1,5 @@
 import tkinter
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from PIL import ImageTk, Image
 
 # region chapter2
@@ -448,6 +448,7 @@ class C3lesson1(tkinter.Tk):
 class c4lesson(tkinter.Tk):
     def __init__(self):
         super().__init__()
+        
         self.title('Metric Helper!')
         self.iconbitmap('ruler.ico')
         # self.geometry('500x500')
@@ -468,14 +469,13 @@ class c4lesson(tkinter.Tk):
         self.metric_list_v = [24, 21, 18, 15, 12, 9, 6, 3, 2, 1, 0, -1, -2, -3, -6, -9, -12, -15, -18, -21, -24][-1::-1]
     # end def __init__
     
-    # Define layout
     def create_widgets(self):
         # define widgets
         self.input_field = tkinter.Entry(self, width=20, font=self.field_font, borderwidth=3)
         equal_label = tkinter.Label(self, text='=', font=self.field_font, bg=self.bg_color)
         self.output_field = tkinter.Entry(self, width=20, font=self.field_font, borderwidth=3)
         to_label = tkinter.Label(self, text='to', font=self.field_font, bg=self.bg_color)
-        convert_button = tkinter.Button(self, text='Convert', font=self.field_font, bg=self.button_color)
+        convert_button = tkinter.Button(self, text='Convert',command=self.calculate, font=self.field_font, bg=self.button_color)
         
         # place widgets
         self.input_field.grid(row=0, column=0, padx=10, pady=10)
@@ -515,7 +515,19 @@ class c4lesson(tkinter.Tk):
     # end def create_combobox
     
     # Define functions
-    
+    def calculate(self):
+        try:
+            cal = lambda x: 10**self.metric_list_v[self.metric_list_n.index(x)]
+            
+            from_v = float(self.input_field.get()) * cal(self.input_combobox.get())
+            to_v = from_v / cal(self.output_combobox.get())
+            
+            self.output_field.delete(0, tkinter.END)
+            self.output_field.insert(0, str(to_v))
+        except:
+            messagebox.showerror("Invalid Input!", "Please Enter a Valid Number")
+    # end def calculate
+      
     def run(self):
         self.create_widgets()
         # self.create_option_menu()
