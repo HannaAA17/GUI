@@ -599,7 +599,7 @@ class c5lesson(tkinter.Tk):
         
         # input frame layout
         list_entry = tkinter.Entry(input_frame, width=35, borderwidth=3, font=self.my_font)
-        list_add_button = tkinter.Button(input_frame, text='Add Item', borderwidth=2, bg=self.button_color, font=self.my_font)
+        list_add_button = tkinter.Button(input_frame, text='Add Item', borderwidth=2, bg=self.button_color, font=self.my_font, command=self.add_item)
         
         list_entry.grid(row=0, column=0, padx=5, pady=5)
         list_add_button.grid(row=0, column=1, padx=5, pady=5, ipadx=5)
@@ -611,13 +611,29 @@ class c5lesson(tkinter.Tk):
         list_remove_button = tkinter.Button(button_frame, text='Remove Item', borderwidth=2, bg=self.button_color, font=self.my_font)
         list_Clear_button = tkinter.Button(button_frame, text='Clear List', borderwidth=2, bg=self.button_color, font=self.my_font)
         Save_button = tkinter.Button(button_frame, text='Save List', borderwidth=2, bg=self.button_color, font=self.my_font)
-        quit_button = tkinter.Button(button_frame, command=self.destroy, text='Quit', borderwidth=2, bg=self.button_color, font=self.my_font)
+        quit_button = tkinter.Button(button_frame, text='Quit', borderwidth=2, bg=self.button_color, font=self.my_font, command=self.destroy)
         
         list_remove_button.grid(row=0,column=1, padx=2, pady=10) # big enough
         list_Clear_button.grid(row=0,column=2, padx=2, pady=10, ipadx=10)
         Save_button.grid(row=0,column=3, padx=2, pady=10, ipadx=10)
         quit_button.grid(row=0,column=4, padx=2, pady=10, ipadx=24)
+
+        # add scroll bar
+        my_scrollbar = tkinter.Scrollbar(output_frame)
+        my_scrollbar.grid(row=0, column=1, sticky='NS')
+        
+        # link the scroll bar, link the scroll bar size
+        my_scrollbar.config(command=my_listbox.yview)
+        my_listbox.config(yscrollcommand=my_scrollbar.set)
+        
+        self.my_listbox = my_listbox
+        self.list_entry = list_entry
     # end def create_frames
+    
+    def add_item(self):
+        '''add item to the listbox'''
+        if self.list_entry.get(): self.my_listbox.insert(tkinter.END, self.list_entry.get())
+        self.list_entry.delete(0, tkinter.END)
     
     def run(self):
         self.create_frames()
