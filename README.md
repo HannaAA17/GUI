@@ -11,3 +11,9 @@
 + [color platies](https://coolors.co/)
 + \<return> bending
 + IntVar, StrVar
++ radio buttons
+
+## chapter 4:
++ OptionMenu 
++ Combobox
++ __wrap_exception 
