@@ -1,7 +1,5 @@
 import tkinter
 from tkinter import ttk, messagebox
-from PIL import ImageTk, Image
-
 
 '''Metric Helper'''
 class c4lesson(tkinter.Tk):
@@ -88,7 +86,7 @@ class c4lesson(tkinter.Tk):
             try:
                 return func(self, *args, **kwargs)
             except:
-                 messagebox.showerror("Invalid Input!", "Please Enter a Valid Number")
+                messagebox.showerror("Invalid Input!", "Please Enter a Valid Number")
         
         return _func_wrapper
 
