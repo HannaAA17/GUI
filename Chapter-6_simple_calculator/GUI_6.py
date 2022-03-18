@@ -66,35 +66,37 @@ class Calculator(tkinter.Tk):
                 item.grid(row=row, column=column, pady=1, sticky='WE', **kwards)
         
         # 2nd row
-        inverse_button.grid(row=1, column=0, pady=1, sticky='WE')
-        square_button.grid(row=1, column=1, pady=1, sticky='WE')
-        exponent_button.grid(row=1, column=2, pady=1, sticky='WE')
-        divide_button.grid(row=1, column=3, pady=1, sticky='WE')
+        grid_em(
+            items=[inverse_button, square_button, exponent_button, divide_button],
+            row=1
+        )
         
         # 3rd row, add padding to create the size of the columns "ipadx"
-        num_buttons[7].grid(row=2, column=0, pady=1, sticky='WE', ipadx=20)
-        num_buttons[8].grid(row=2, column=1, pady=1, sticky='WE', ipadx=20)
-        num_buttons[9].grid(row=2, column=2, pady=1, sticky='WE', ipadx=20)
-        multiply_button.grid(row=2, column=3, pady=1, sticky='WE', ipadx=20)
+        grid_em(
+            items=[*num_buttons[7:], multiply_button],
+            row=2,
+            ipadx=20
+        )
         
         # 4th row
-        num_buttons[4].grid(row=3, column=0, pady=1, sticky='WE')
-        num_buttons[5].grid(row=3, column=1, pady=1, sticky='WE')
-        num_buttons[6].grid(row=3, column=2, pady=1, sticky='WE')
-        substract_button.grid(row=3, column=3, pady=1, sticky='WE')
+        grid_em(
+            items=[*num_buttons[4:7], substract_button],
+            row=3,
+            ipadx=20
+        )
         
         # 5th row
-        num_buttons[1].grid(row=4, column=0, pady=1, sticky='WE')
-        num_buttons[2].grid(row=4, column=1, pady=1, sticky='WE')
-        num_buttons[3].grid(row=4, column=2, pady=1, sticky='WE')
-        add_button.grid(row=4, column=3, pady=1, sticky='WE')
+        grid_em(
+            items=[*num_buttons[1:4], add_button],
+            row=4
+        )
         
 
         # 6th row
-        negate_button.grid(row=5, column=0, pady=1, sticky='WE')
-        num_buttons[0].grid(row=5, column=1, pady=1, sticky='WE')
-        decimal_button.grid(row=5, column=2, pady=1, sticky='WE')
-        equal_button.grid(row=5, column=3, pady=1, sticky='WE')
+        grid_em(
+            items=[negate_button, num_buttons[0], decimal_button, equal_button],
+            row=5
+        )
 
     def run(self):
         self.make_layout()
