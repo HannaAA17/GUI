@@ -55,7 +55,7 @@ class Calculator(tkinter.Tk):
         decimal_button = r_b('.', 'black', fg='white', command=lambda:self.submit_number('.'))
         negate_button = r_b('+/-', 'black', fg='white')
         
-        num_buttons = [r_b(str(i),'black', fg='white', command=lambda:self.submit_number(i)) for i in range(10)] 
+        num_buttons = [r_b(str(i),'black', fg='white', command=lambda num=i :self.submit_number(num)) for i in range(10)] 
         
         # 1st row
         clear_button.grid(row=0, column=0, columnspan=2, pady=1, sticky='WE')
