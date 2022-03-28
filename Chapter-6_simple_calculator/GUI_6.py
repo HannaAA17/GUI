@@ -8,6 +8,9 @@ class Calculator(tkinter.Tk):
         self.iconbitmap('calc.ico')
         self.geometry('300x400')
         self.resizable(0, 0)
+        
+        self.first_value = None
+        self.operator = None
     # end def __init__
 
     def make_layout(self):
@@ -34,29 +37,39 @@ class Calculator(tkinter.Tk):
         )
         display.pack(padx=5, pady=5)
         
-        # button widgets
+        '''create button widgets'''
         def r_b(text, bg=light_green, **kwards):
             button = tkinter.Button(button_frame,
                 text=text, font=button_font, bg=bg, **kwards
             )
             return button
         
-        clear_button = r_b('Clear', dark_green, command=lambda: [display.delete(0, tkinter.END), decimal_button.config(state='normal')])
-        quit_button = r_b('Quit', dark_green, command=self.destroy)     
+        add_button = r_b('+', command=lambda:self.submit_operator('+'))
+        substract_button = r_b('-', command=lambda:self.submit_operator('-'))
+        multiply_button = r_b('*', command=lambda:self.submit_operator('*'))
+        divide_button = r_b(' / ', command=lambda:self.submit_operator('/'))
         
-        inverse_button = r_b('1/x')
-        square_button = r_b('x^2')
-        exponent_button = r_b('x^n')
-        divide_button = r_b(' / ')
-        multiply_button = r_b('*')
-        substract_button = r_b('-')
-        add_button = r_b('+')
-        equal_button = r_b('=', dark_green)
+        inverse_button = r_b('1/x', command=lambda:self.submit_operator('1/x'))
+        square_button = r_b('x^2', command=lambda:self.submit_operator('x**2'))
+        exponent_button = r_b('x^n', command=lambda:self.submit_operator('**'))
+        
+        equal_button = r_b('=', dark_green, command=lambda:self.submit_operator('='))
+        
         decimal_button = r_b('.', 'black', fg='white', command=lambda:self.submit_number('.'))
         negate_button = r_b('+/-', 'black', fg='white')
         
+        clear_button = r_b('Clear', dark_green, command=lambda: [display.delete(0, tkinter.END), self.buttons_state()])
+        quit_button = r_b('Quit', dark_green, command=self.destroy)     
+        
         num_buttons = [r_b(str(i),'black', fg='white', command=lambda num=i :self.submit_number(num)) for i in range(10)] 
         
+        self.state_buttons = [
+            add_button, substract_button, multiply_button, divide_button,
+            inverse_button, square_button, exponent_button, decimal_button
+        ]
+        
+        
+        '''place buttons'''
         # 1st row
         clear_button.grid(row=0, column=0, columnspan=2, pady=1, sticky='WE')
         quit_button.grid(row=0, column=2, columnspan=2 ,pady=1, sticky='WE')
@@ -77,7 +90,6 @@ class Calculator(tkinter.Tk):
         grid_em(items=[negate_button, num_buttons[0], decimal_button, equal_button], row=5)
         
         self.display = display
-        self.decimal_button = decimal_button
     # end def make_layout
     
     def submit_number(self, number):
@@ -86,8 +98,46 @@ class Calculator(tkinter.Tk):
         self.display.insert('end', number)
         
         if '.' in self.display.get():
-            self.decimal_button.config(state='disabled')
+            self.state_buttons[-1].config(state='disabled')
+    # end def submit_number
     
+    def submit_operator(self, operator):
+        operators = ['+','-','*','/','**','1/x','x**2','=']
+        
+        current_value = self.display.get()
+        self.display.delete(0, tkinter.END)
+
+        if operator in  ['1/x', 'x**2']:
+            current_value = round(eval(operator.replace('x', current_value)),4)
+        
+        elif operator in ['+','-','*','/','**']:
+            self.first_value = current_value
+            self.operator = operator
+            self.buttons_state('disabled')
+            return 
+        
+        elif operator == '=' and self.operator:
+            current_value = round(eval(self.first_value+self.operator+current_value) if self.operator else current_value,4)
+            self.first_value = None
+            self.operator = None
+        
+        self.display.insert(0, current_value)
+        self.buttons_state()
+    
+    def buttons_state(self, state='normal'):
+        '''change the state of the operateors'''
+        if state == 'normal':
+            for button in self.state_buttons[:-1]:
+                button.config(state=state)
+        
+        elif state == 'disabled':
+            for button in self.state_buttons[:-1]:
+                button.config(state=state)
+        
+        if '.' not in self.display.get():
+            self.state_buttons[-1].config(state='normal')
+    # end def buttons_state
+        
     def run(self):
         self.make_layout()
         self.mainloop()
