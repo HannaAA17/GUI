@@ -136,6 +136,8 @@ class Calculator(tkinter.Tk):
         
         if '.' not in self.display.get():
             self.state_buttons[-1].config(state='normal')
+        else:
+            self.state_buttons[-1].config(state='disabled')
     # end def buttons_state
         
     def run(self):
