@@ -49,14 +49,14 @@ class Calculator(tkinter.Tk):
         multiply_button = r_b('*', command=lambda:self.submit_operator('*'))
         divide_button = r_b(' / ', command=lambda:self.submit_operator('/'))
         
-        inverse_button = r_b('1/x', command=lambda:self.submit_operator('1/x'))
-        square_button = r_b('x^2', command=lambda:self.submit_operator('x**2'))
+        inverse_button = r_b('1/x', command=lambda:self.submit_operator('1/(x)'))
+        square_button = r_b('x^2', command=lambda:self.submit_operator('(x)**2'))
         exponent_button = r_b('x^n', command=lambda:self.submit_operator('**'))
         
         equal_button = r_b('=', dark_green, command=lambda:self.submit_operator('='))
         
         decimal_button = r_b('.', 'black', fg='white', command=lambda:self.submit_number('.'))
-        negate_button = r_b('+/-', 'black', fg='white')
+        negate_button = r_b('+/-', 'black', fg='white', command=lambda:self.submit_operator('-1*x'))
         
         clear_button = r_b('Clear', dark_green, command=lambda: [display.delete(0, tkinter.END), self.buttons_state()])
         quit_button = r_b('Quit', dark_green, command=self.destroy)     
@@ -102,12 +102,13 @@ class Calculator(tkinter.Tk):
     # end def submit_number
     
     def submit_operator(self, operator):
-        operators = ['+','-','*','/','**','1/x','x**2','=']
+        operators = ['+','-','*','/','**','1/(x)','(x)**2','=']
         
-        current_value = self.display.get()
+        current_value = float(self.display.get()).__str__()
+        
         self.display.delete(0, tkinter.END)
 
-        if operator in  ['1/x', 'x**2']:
+        if operator in  ['1/(x)', '(x)**2', '-1*x']:
             current_value = round(eval(operator.replace('x', current_value)),4)
         
         elif operator in ['+','-','*','/','**']:
