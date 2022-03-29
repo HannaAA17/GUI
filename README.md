@@ -15,9 +15,12 @@
 
 ## chapter 4:
 + OptionMenu 
-+ Combobox
++ ttk Combobox
 + __wrap_exception 
 + Message box
 ## chapter 5:
 + List box
 + Scroll bar
+
+## chapter 6:
++ widget.config(state='normal'|'disabled')
