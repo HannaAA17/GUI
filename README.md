@@ -1,4 +1,5 @@
 # GUI with Tkinter
+Tkinter course projects with some OOP
 
 ## chapter 2:
 + Introduction to Tkinter widgets
