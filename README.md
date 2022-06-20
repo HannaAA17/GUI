@@ -25,3 +25,8 @@ Tkinter course projects with some OOP
 
 ## chapter 6:
 + widget.config(state='normal'|'disabled')
+
+## chapter 7:
++ scrolledtext
++ filedialog
++ fonts
