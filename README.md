@@ -30,3 +30,7 @@ Tkinter course projects with some OOP
 + scrolledtext
 + filedialog
 + fonts
++ tkinter.messagebox.askyesno
+
+## other
+* self.eval('tk::PlaceWindow . center')
